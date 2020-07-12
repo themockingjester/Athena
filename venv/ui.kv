@@ -1,0 +1,52 @@
+#:import C kivy.utils.get_color_from_hex
+
+<GridLayout>:
+    cols: 1
+    spacing: 10
+
+
+<Button>:
+
+    font_size: 24
+    halign: 'center'
+    markup: True
+<Mainwindow>:
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: 10
+
+        padding: 15
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: 10
+
+            Button:
+                id: begin_end_recording
+                background_color: C('#e3642d')
+                background_normal: 'button_normal.png'
+                background_down: 'button_down.png'
+                text:
+                    ('[font=Modern Pictograms][size=120]'
+                    'h[/size][/font]\nStart meeting')
+                on_press: app.main_to_startmeeting()
+
+            GridLayout:
+                Button:
+                    background_color: C('#5f61c2')
+                    text: '[font=Modern Pictograms][size=80]0[/size][/font]'
+                    background_normal: 'button_normal.png'
+                    background_down: 'button_down.png'
+                Button:
+                    background_color: C('#fa1b39')
+                    text: '[font=Modern Pictograms][size=80]^[/size][/font]\nIP'
+                    on_press: app.ip_finder()
+                    background_normal: 'button_normal.png'
+                    background_down: 'button_down.png'
+        BoxLayout:
+            Button:
+                background_color: C('#d62f4e')
+                text: '[font=Modern Pictograms][size=120]S[/size][/font]\nJoinmeeting'
+                on_press: app.main_to_joinentrance()
+
+                background_normal: 'button_normal.png'
+                background_down: 'button_down.png'
