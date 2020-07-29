@@ -118,6 +118,7 @@
 <ScanWindow>:
     result_button:result_button
     gif : gif
+    scanning_text: scanning_text
     BoxLayout:
         FloatLayout:
             canvas.before:
@@ -129,6 +130,7 @@
                     pos: self.pos
                     size:self.size
             Label:
+                id: scanning_text
                 markup:True
                 halign: 'center'
 
@@ -285,7 +287,8 @@
 
         BoxLayout:
             orientation:'vertical'
-
+            margin: 10
+            padding:50
 
             Label:
                 markup:True
@@ -314,5 +317,5 @@
 
                     \n\n\n\n\n
                     """
-                font_size: root.width/23
+                #font_size: root.width/23
                 color: rgba("#db2c3d")

@@ -28,6 +28,7 @@ class MyWid(BoxLayout):
 class ScanWindow(FloatLayout):
     result_button=ObjectProperty(None)
     gif = ObjectProperty(None)
+    scanning_text = ObjectProperty(None)
 class ScanWindowOutput(FloatLayout):
     pass
 class ShowResult(BoxLayout):
@@ -94,6 +95,7 @@ class uiApp(App):
         if var == 1:
             self.scanwindowscreen.result_button.opacity = 0
             self.scanwindowscreen.gif.opacity = 1
+            self.scanwindowscreen.scanning_text.opacity = 1
         self.func(path,lis3,var)
 
         if self.scanwindowscreen.result_button.opacity == 0 and var == 1:
@@ -101,6 +103,7 @@ class uiApp(App):
             self.scanwindowscreen.result_button.disabled = False
             self.scanwindowscreen.result_button.opacity = 1
             self.scanwindowscreen.gif.opacity = 0
+            self.scanwindowscreen.scanning_text.opacity = 0
         if var == 0:
             self.successfully_updated = True
 
@@ -298,6 +301,7 @@ WHERE (address,name,size) NOT IN
         thread7 = threading.Thread(target=self.show_removed_data_at_ui, args=(dat,))
         thread7.start()
     def show_removed_data_at_ui(self,dat):
+        self.showresultscreen.lay.clear_widgets()
         time.sleep(0.5)
         for i in dat:
             if 1 == 1:
@@ -329,6 +333,7 @@ WHERE (address,name,size) NOT IN
         thread6 = threading.Thread(target=self.show_new_data_at_ui, args=(dat,))
         thread6.start()
     def show_new_data_at_ui(self,dat):
+        self.showresultscreen.lay.clear_widgets()
         time.sleep(0.5)
         for i in dat:
             if 1 == 1:
@@ -355,6 +360,7 @@ WHERE (address,name,size) NOT IN
         thread4 = threading.Thread(target=self.show_large_data_at_ui, args=(dat,))
         thread4.start()
     def show_large_data_at_ui(self,dat):
+        self.showresultscreen.lay.clear_widgets()
         time.sleep(0.2)
         for i in dat:
             if 1==1:
@@ -394,7 +400,8 @@ HAVING
         thread5 = threading.Thread(target=self.show_malicious_data_at_ui, args=(dat,))
         thread5.start()
     def show_malicious_data_at_ui(self,dat):
-        time.sleep((0.5))
+        self.showresultscreen.lay.clear_widgets()
+        time.sleep(0.2)
         for i in dat:
             if self.state ==False:
                 break
@@ -425,6 +432,8 @@ WHERE t.cnt > 1""")
         thread3 = threading.Thread(target=self.show_duplicate_data_at_ui, args=(dat,))
         thread3.start()
     def show_duplicate_data_at_ui(self,dat):
+        self.showresultscreen.lay.clear_widgets()
+        time.sleep(0.2)
         for i in dat:
             if self.state == False:
                 break
@@ -437,7 +446,7 @@ WHERE t.cnt > 1""")
                 b.three.text += str(i[2]) + ' bytes'
                 self.showresultscreen.lay.add_widget(b)
 
-                time.sleep(0.3)
+                time.sleep(0.2)
 
 
 
