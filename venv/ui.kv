@@ -1,8 +1,58 @@
 #:import C kivy.utils.get_color_from_hex
-
+#:import App kivy.app.App
 <GridLayout>:
     cols: 1
     spacing: 10
+<MyWid>:
+    one:one
+    two:two
+    three: three
+    BoxLayout:
+        size_hint:(0.5,0.7)
+        padding:2
+        canvas.before:
+            Color:
+
+                rgba :  rgba("##383838")
+            Rectangle:
+
+                pos: self.pos
+                size:self.size
+        BoxLayout:
+
+            padding:5
+
+            orientation:'vertical'
+            Button:
+                text_size: self.width, self.height
+                allow_stretch : True
+                color: C('#fc8277')
+                background_color:C('#00CC99')
+                background_normal: 'button_normal.png'
+                background_down: 'button_down.png'
+                id:one
+
+
+
+                text:('[size=30][color=#898582]Location: [/color][/size]')
+            Button:
+                background_color:C('#00CC99')
+                id:two
+                text_size: root.width, self.height
+                color: C('#fc8277')
+                background_normal: 'button_normal.png'
+                background_down: 'button_down.png'
+                text:('[size=30][color=#898582]Name: [/color][/size]')
+            Button:
+                background_color:C('#00CC99')
+                id:three
+                text_size: root.width, self.height
+                color: C('#fc8277')
+                background_normal: 'button_normal.png'
+                background_down: 'button_down.png'
+                text:('[size=30][color=#898582]Size: [/color][/size]')
+
+
 
 
 <Button>:
@@ -11,6 +61,7 @@
     halign: 'center'
     markup: True
 <Mainwindow>:
+    update_indicator: update_indicator
     BoxLayout:
         orientation: 'vertical'
         spacing: 10
@@ -21,32 +72,247 @@
             spacing: 10
 
             Button:
-                id: begin_end_recording
+
                 background_color: C('#e3642d')
                 background_normal: 'button_normal.png'
                 background_down: 'button_down.png'
                 text:
-                    ('[font=Modern Pictograms][size=120]'
-                    'h[/size][/font]\nStart meeting')
-                on_press: app.main_to_startmeeting()
+                    ('[font=Modern Pictograms][size=350]'
+                    's[/size][/font]\n[size=60]Scan[/size]')
+                on_press: app.mainscreen_to_scanwindowscreen()
 
             GridLayout:
+                rows:2
                 Button:
+                    id: update_indicator
                     background_color: C('#5f61c2')
-                    text: '[font=Modern Pictograms][size=80]0[/size][/font]'
+                    text: '[font=Modern Pictograms][size=200][][/size][/font]\n[size=60]Update[/size]'
                     background_normal: 'button_normal.png'
+                    on_press: app.scan(0)
                     background_down: 'button_down.png'
-                Button:
-                    background_color: C('#fa1b39')
-                    text: '[font=Modern Pictograms][size=80]^[/size][/font]\nIP'
-                    on_press: app.ip_finder()
-                    background_normal: 'button_normal.png'
-                    background_down: 'button_down.png'
+
+                GridLayout:
+                    cols:2
+                    Button:
+                        background_color: C('#c754c7')
+                        text: '[font=Modern Pictograms][size=180]=[/size][/font]\n[size=60]Help[/size]'
+                        on_press: app.mainscreen_to_helpwindow()
+                        background_normal: 'button_normal.png'
+                        background_down: 'button_down.png'
+                    Button:
+                        background_color: C('#ada5a9')
+                        text: '[font=Modern Pictograms][size=250]X[/size][/font]\n[size=60]Exit[/size]'
+                        on_press: app.exit()
+                        background_normal: 'button_normal.png'
+                        background_down: 'button_down.png'
+
+
         BoxLayout:
             Button:
                 background_color: C('#d62f4e')
-                text: '[font=Modern Pictograms][size=120]S[/size][/font]\nJoinmeeting'
-                on_press: app.main_to_joinentrance()
+                text: '[font=second][color=#ffffff][size=200]Athena[/size][/color][/font]'
+                #on_press: app.main_to_joinentrance()
 
                 background_normal: 'button_normal.png'
                 background_down: 'button_down.png'
+<ScanWindow>:
+    result_button:result_button
+    gif : gif
+    BoxLayout:
+        FloatLayout:
+            canvas.before:
+                Color:
+
+                    rgba :  rgba("#44B5DC")
+                Rectangle:
+
+                    pos: self.pos
+                    size:self.size
+            Label:
+                markup:True
+                halign: 'center'
+
+                text:
+                    """[font=third]Scanning!![/font]\n\n\n\n
+                    """
+                font_size:80
+                color: rgba("#8b2c3d")
+            Image:
+                id: gif
+
+                source : 'search.png'
+
+
+
+
+
+                center: self.center
+                size: 250,250
+
+
+            Button:
+                pos:root.width/2.6,root.height/4
+                opacity: 1
+                id: result_button
+                #source: 'result.png'
+                text:'Result'
+                background_color: rgba(255,0,0)
+                size_hint: (0.2,0.1)
+                on_press: app.hello()
+
+<ScanWindowOutput>:
+    GridLayout:
+        cols:2
+        padding:10
+        spacing:15
+
+
+        Button:
+            background_color: C('#9070FF')
+            text: '[font=Modern Pictograms][size=250]o[/size][/font]\n[size=40]back[/size]'
+            on_press: app.back_from_scanwindow_output_screen_to_mainscreen()
+        Button:
+            background_color: C('#606060FF')
+            text: '[font=Modern Pictograms][size=250]o[/size][/font]\n[size=40]Recently Removed[/size]'
+            background_normal: 'button_normal.png'
+            on_press:app.ScanWindowOutputScreen_to_ShowResultScreen_for_removed_data()
+        Button:
+            background_color: C('#fa1b39')
+            text: '[font=Modern Pictograms][size=250]8[/size][/font]\n[size=40]Large files[/size]'
+            on_press: app.mainscreen_to_resultscreen_for_large_data()
+            background_normal: 'button_normal.png'
+            background_down: 'button_down.png'
+        Button:
+            background_color: C('#D6ED17FF')
+            text: '[font=Modern Pictograms][size=250]7[/size][/font]\n[size=40]New Data[/size]'
+            on_press: app.ScanWindowOutputScreen_to_ShowResultScreen_for_new_data()
+            background_normal: 'button_normal.png'
+            background_down: 'button_down.png'
+
+        Button:
+            background_color: C('#FFD662FF')
+            text: '[font=Modern Pictograms][size=250]X[/size][/font]\n[size=40]Threats[/size]'
+            background_normal: 'button_normal.png'
+            background_down: 'button_down.png'
+            #on_press: app.ScanWindowOutputScreen_to_ShowResultScreen()
+
+            on_press: app.ScanWindowOutputScreen_to_ShowResultScreen_for_threats()
+        Button:
+            background_color: C('#E94B3CFF')
+            text: '[font=Modern Pictograms][size=250]W[/size][/font]\n[size=40]Duplicate Data[/size]'
+            background_normal: 'button_normal.png'
+            background_down: 'button_down.png'
+            on_press: app.ScanWindowOutputScreen_to_ShowResultScreen_for_dup_data()
+<ShowResult>:
+    lay:lay
+    canvas.before:
+        Color:
+
+            rgba :  rgba("#787878")
+        Rectangle:
+
+            pos: self.pos
+            size:self.size
+
+    BoxLayout:
+        orientation:'vertical'
+        Button:
+            text:'back'
+            size_hint: (None,None)
+            size: (220,90)
+            pos_hint:{'x':.005, 'y':.95}
+            on_press: app.back_on_showresultscreen()
+
+        BoxLayout:
+
+            ScrollView:
+                GridLayout:
+                    id:lay
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: self.minimum_height  #<<<<<<<<<<<<<<<<<<<<
+                    row_default_height: 160
+                    cols:1
+
+
+
+
+<BackWindow>:
+    BoxLayout:
+        orientation:'vertical'
+        canvas.before:
+            Color:
+
+                rgba :  rgba("#e0de43")
+            Rectangle:
+
+                pos: self.pos
+                size:self.size
+        Label:
+            markup:True
+            color: C('#fc8277')
+            text: '[size=90]Are you sure you want to go back??[/size]'
+        BoxLayout:
+            orientation:'horizontal'
+            ImageButton:
+                source: 'no.png'
+                on_press: app.no_on_scanwindow()
+            ImageButton:
+                source: 'yes.png'
+                on_press: app.yes_on_scanwindow()
+<HelpWindow>:
+    BoxLayout:
+        canvas.before:
+            Color:
+
+                rgba :  rgba("#e0de43")
+            Rectangle:
+
+                pos: self.pos
+                size:self.size
+        orientation:'vertical'
+
+        Button:
+            background_color: C('#9932CC')
+            background_normal: 'button_normal.png'
+            background_down: 'button_down.png'
+            text:'back'
+            size_hint: (None,None)
+            size: (160,60)
+
+            pos_hint:{'x':.005, 'y':.95}
+            on_press: app.helpwindow_to_mainscreen()
+
+        BoxLayout:
+            orientation:'vertical'
+
+
+            Label:
+                markup:True
+                halign: 'center'
+
+                text:
+                    """\n[font=third][u]Help[/u][/font]\n\n
+                    """
+                font_size:80
+                color: rgba("#8b2c3d")
+            Label:
+                markup:True
+
+                text:
+
+                    """->Please enable the storage permission for this app
+                    manually!!
+                    \n
+                    ->After clicking on Scan button wait for some time so
+                    that bot can examine your device .
+                    \n
+                    ->This app is built in python3 so its graphics are not
+                    so advance sorry for that..
+
+
+
+                    \n\n\n\n\n
+                    """
+                font_size: root.width/23
+                color: rgba("#db2c3d")
